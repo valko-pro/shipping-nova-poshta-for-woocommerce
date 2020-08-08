@@ -22,7 +22,7 @@
     <exclude-pattern>*\.po</exclude-pattern>
     <exclude-pattern>*\.twig</exclude-pattern>
     <exclude-pattern>*\.css</exclude-pattern>
-	<exclude-pattern>*\.scss</exclude-pattern>
+    <exclude-pattern>*\.scss</exclude-pattern>
 
     <!-- How to scan -->
     <arg value="sp"/><!-- Show sniff and progress -->
@@ -35,6 +35,7 @@
     <rule ref="PHPCompatibilityWP"/>
 
     <!-- Rules: WordPress Coding Standards -->
+
     <rule ref="Generic.Arrays.DisallowShortArraySyntax.Found">
         <severity>0</severity>
     </rule>
