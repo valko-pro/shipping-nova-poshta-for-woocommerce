@@ -84,21 +84,27 @@ class Test_DB extends Test_Case {
 			->shouldReceive( 'get_charset_collate' )
 			->twice();
 		expect( 'maybe_create_table' )
-			->with( $wpdb->prefix . 'np_cities', 'CREATE TABLE ' . $this->prefix . 'np_cities ( 
+			->with(
+				$wpdb->prefix . 'np_cities',
+				'CREATE TABLE ' . $wpdb->prefix . 'np_cities (
 				city_id               VARCHAR(36)  NOT NULL UNIQUE,
 		        description_ru        VARCHAR(100) NOT NULL,
 		        description_ua        VARCHAR(100) NOT NULL,
 		        area                  VARCHAR(100) NOT NULL)
-		        SITE COLLATION' )
+		        SITE COLLATION'
+			)
 			->once();
 		expect( 'maybe_create_table' )
-			->with( $wpdb->prefix . 'np_warehouses', 'CREATE TABLE ' . $this->prefix . 'np_warehouses ( 
+			->with(
+				$wpdb->prefix . 'np_warehouses',
+				'CREATE TABLE ' . $wpdb->prefix . 'np_warehouses ( 
 				`warehouse_id`        VARCHAR(36)  NOT NULL UNIQUE,
 		        `city_id`             VARCHAR(36)  NOT NULL,
 		        `description_ru`      VARCHAR(100) NOT NULL,
 		        `description_ua`      VARCHAR(100) NOT NULL,
 		        `order`               INT(4)       UNSIGNED NOT NULL)
-		         SITE COLLATION' )
+		         SITE COLLATION'
+			)
 			->once();
 
 		$language = Mockery::mock( 'Nova_Poshta\Core\Language' );

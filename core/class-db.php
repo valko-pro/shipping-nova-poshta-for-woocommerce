@@ -126,7 +126,7 @@ class DB {
 	 * List of the cities
 	 *
 	 * @param string $search Search string.
-	 * @param int $limit Limit cities in result.
+	 * @param int    $limit  Limit cities in result.
 	 *
 	 * @return array
 	 */
