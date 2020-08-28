@@ -100,7 +100,7 @@ class DB {
 		        `city_id`             VARCHAR(36)  NOT NULL,
 		        `description_ru`      VARCHAR(100) NOT NULL,
 		        `description_ua`      VARCHAR(100) NOT NULL,
-		        `order`               INT(4)       UNSIGNED NOT NULL,
+		        `order`               INT(4)       UNSIGNED NOT NULL
             ) ' . $wpdb->get_charset_collate();
 
 		$this->maybe_create_table( $this->cities_table, $cities_sql );
