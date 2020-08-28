@@ -101,11 +101,7 @@ class DB {
 		        `description_ru`      VARCHAR(100) NOT NULL,
 		        `description_ua`      VARCHAR(100) NOT NULL,
 		        `order`               INT(4)       UNSIGNED NOT NULL,
-                  
-                CONSTRAINT `city_id` FOREIGN KEY( `city_id` ) REFERENCES ' . $this->cities_table . ' ( `city_id` )
-                    ON DELETE CASCADE
-                    ON UPDATE CASCADE
-	        ) ' . $wpdb->get_charset_collate();
+            ) ' . $wpdb->get_charset_collate();
 
 		$this->maybe_create_table( $this->cities_table, $cities_sql );
 		$this->maybe_create_table( $this->warehouses_table, $warehouses_sql );
@@ -130,7 +126,7 @@ class DB {
 	 * List of the cities
 	 *
 	 * @param string $search Search string.
-	 * @param int    $limit  Limit cities in result.
+	 * @param int $limit Limit cities in result.
 	 *
 	 * @return array
 	 */
