@@ -153,6 +153,8 @@ class Main {
 	 * Define hooks with API key
 	 */
 	private function define_hooks_with_api_key() {
+		$cart = new Cart( $this->settings );
+		$cart->hooks();
 		$calculator        = new Calculator();
 		$shipping_cost     = new Shipping_Cost( $this->api, $this->settings, $calculator );
 		$internet_document = new Internet_Document( $this->api, $shipping_cost, $this->notice );

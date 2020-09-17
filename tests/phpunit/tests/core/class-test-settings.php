@@ -236,6 +236,48 @@ class Test_Settings extends Test_Case {
 	}
 
 	/**
+	 * Test exclude shipping cost from the total enabled.
+	 *
+	 * @throws ExpectationArgsRequired Invalid arguments.
+	 */
+	public function test_exclude_shipping_from_total_enable() {
+		$api_key = 'api-key';
+		expect( 'get_option' )
+			->with( Main::PLUGIN_SLUG, [] )
+			->once()
+			->andReturn(
+				[
+					'api_key'                     => $api_key,
+					'exclude_shipping_from_total' => 1,
+				]
+			);
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
+
+		$settings = new Settings( $notice );
+
+		$this->assertTrue( $settings->exclude_shipping_from_total() );
+	}
+
+	/**
+	 * Test exclude shipping cost from the total disabled.
+	 *
+	 * @throws ExpectationArgsRequired Invalid arguments.
+	 */
+	public function test_exclude_shipping_from_total_DISABLED() {
+		$api_key = 'api-key';
+		expect( 'get_option' )
+			->with( Main::PLUGIN_SLUG, [] )
+			->once()
+			->andReturn( [ 'api_key' => $api_key ] );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
+
+		$settings = new Settings( $notice );
+
+		$this->assertFalse( $settings->exclude_shipping_from_total() );
+	}
+
+
+	/**
 	 * Test shipping cost enable
 	 *
 	 * @throws ExpectationArgsRequired Invalid arguments.

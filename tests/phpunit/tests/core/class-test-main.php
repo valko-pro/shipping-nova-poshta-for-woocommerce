@@ -85,6 +85,10 @@ class Test_Main extends Test_Case {
 			->shouldReceive( 'hooks' )
 			->once();
 
+		$cart = Mockery::mock( 'overload:Nova_Poshta\Core\Cart' );
+		$cart
+			->shouldReceive( 'hooks' )
+			->once();
 		Mockery::mock( 'overload:Nova_Poshta\Core\Calculator' );
 		Mockery::mock( 'overload:Nova_Poshta\Core\Shipping_Cost' );
 		Mockery::mock( 'overload:Nova_Poshta\Core\Internet_Document' );

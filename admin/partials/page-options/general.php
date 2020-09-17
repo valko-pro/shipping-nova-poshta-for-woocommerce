@@ -111,6 +111,16 @@ use Nova_Poshta\Core\Main;
 					</select>
 				</label>
 			</p>
+			<p>
+				<label>
+					<input
+						type="checkbox"
+						name="<?php echo esc_attr( Main::PLUGIN_SLUG ); ?>[exclude_shipping_from_total]"
+						value="1" <?php checked( $this->settings->exclude_shipping_from_total(), true ); ?>
+					/>
+					<?php esc_attr_e( 'Exclude shipping cost from the total', 'shipping-nova-poshta-for-woocommerce' ); ?>
+				</label>
+			</p>
 			<div class="cost-formula-fields">
 				<h2><?php esc_attr_e( 'Cost calculate formulas', 'shipping-nova-poshta-for-woocommerce' ); ?></h2>
 				<p>

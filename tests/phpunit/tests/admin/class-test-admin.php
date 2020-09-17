@@ -490,6 +490,7 @@ class Test_Admin extends Test_Case {
 			->andReturn( true );
 		$settings
 			->shouldReceive(
+				'exclude_shipping_from_total',
 				'phone',
 				'description',
 				'default_weight_formula',
@@ -595,6 +596,7 @@ class Test_Admin extends Test_Case {
 			->andReturn( true );
 		$settings
 			->shouldReceive(
+				'exclude_shipping_from_total',
 				'phone',
 				'description',
 				'default_weight_formula',

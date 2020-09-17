@@ -119,6 +119,15 @@ class Settings {
 	}
 
 	/**
+	 * Is a shipping in the total
+	 *
+	 * @return bool
+	 */
+	public function exclude_shipping_from_total(): bool {
+		return ! empty( $this->options['exclude_shipping_from_total'] );
+	}
+
+	/**
 	 * Default formula for calculate weight of products in order
 	 *
 	 * @return string
