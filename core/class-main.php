@@ -156,6 +156,8 @@ class Main {
 	private function define_hooks_with_api_key() {
 		$admin_woocommerce_order_list = new Admin_Woocommerce_Order_List();
 		$admin_woocommerce_order_list->hooks();
+    $cart = new Cart( $this->settings );
+		$cart->hooks();
 		$calculator        = new Calculator();
 		$shipping_cost     = new Shipping_Cost( $this->api, $this->settings, $calculator );
 		$internet_document = new Internet_Document( $this->api, $shipping_cost, $this->notice );
