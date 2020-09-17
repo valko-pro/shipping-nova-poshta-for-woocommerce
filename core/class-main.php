@@ -24,6 +24,7 @@ use Nova_Poshta\Admin\Admin_Manage_Orders;
 use Nova_Poshta\Admin\Notice\Advertisement;
 use Nova_Poshta\Core\Cache\Transient_Cache;
 use Nova_Poshta\Admin\Product_Category_Metabox;
+use Nova_Poshta\Admin\Admin_Woocommerce_Order_List;
 
 /**
  * Class Main
@@ -153,6 +154,8 @@ class Main {
 	 * Define hooks with API key
 	 */
 	private function define_hooks_with_api_key() {
+		$admin_woocommerce_order_list = new Admin_Woocommerce_Order_List();
+		$admin_woocommerce_order_list->hooks();
 		$calculator        = new Calculator();
 		$shipping_cost     = new Shipping_Cost( $this->api, $this->settings, $calculator );
 		$internet_document = new Internet_Document( $this->api, $shipping_cost, $this->notice );
