@@ -85,6 +85,10 @@ class Test_Main extends Test_Case {
 			->shouldReceive( 'hooks' )
 			->once();
 
+		$admin_woocommerce_order_list = Mockery::mock( 'overload:Nova_Poshta\Admin\Admin_Woocommerce_Order_List' );
+		$admin_woocommerce_order_list
+			->shouldReceive( 'hooks' )
+			->once();
 		Mockery::mock( 'overload:Nova_Poshta\Core\Calculator' );
 		Mockery::mock( 'overload:Nova_Poshta\Core\Shipping_Cost' );
 		Mockery::mock( 'overload:Nova_Poshta\Core\Internet_Document' );
