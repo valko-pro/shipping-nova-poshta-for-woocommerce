@@ -12,7 +12,7 @@
 
 namespace Nova_Poshta\Core;
 
-use Nova_Poshta\Admin\Notice;
+use Nova_Poshta\Admin\Notice\Notice;
 
 /**
  * Class Settings
@@ -116,6 +116,15 @@ class Settings {
 	 */
 	public function is_shipping_cost_enable(): bool {
 		return ! empty( $this->options['is_shipping_cost_enable'] );
+	}
+
+	/**
+	 * Is a shipping in the total
+	 *
+	 * @return bool
+	 */
+	public function exclude_shipping_from_total(): bool {
+		return ! empty( $this->options['exclude_shipping_from_total'] );
 	}
 
 	/**

@@ -31,7 +31,7 @@ class Test_Settings extends Test_Case {
 			->with( Main::PLUGIN_SLUG, [] )
 			->once()
 			->andReturn( [ 'api_key' => $api_key ] );
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -53,7 +53,7 @@ class Test_Settings extends Test_Case {
 			->with( null, 'admin.php?page=' . Main::PLUGIN_SLUG )
 			->once()
 			->andReturn( 'url' );
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 		$notice
 			->shouldReceive( 'add' )
 			->with(
@@ -84,7 +84,7 @@ class Test_Settings extends Test_Case {
 					'phone'   => $phone,
 				]
 			);
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -102,7 +102,7 @@ class Test_Settings extends Test_Case {
 			->with( Main::PLUGIN_SLUG, [] )
 			->once()
 			->andReturn( [ 'api_key' => $api_key ] );
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -126,7 +126,7 @@ class Test_Settings extends Test_Case {
 					'description' => $description,
 				]
 			);
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -144,7 +144,7 @@ class Test_Settings extends Test_Case {
 			->with( Main::PLUGIN_SLUG, [] )
 			->once()
 			->andReturn( [ 'api_key' => $api_key ] );
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -168,7 +168,7 @@ class Test_Settings extends Test_Case {
 					'city_id' => $city_id,
 				]
 			);
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -186,7 +186,7 @@ class Test_Settings extends Test_Case {
 			->with( Main::PLUGIN_SLUG, [] )
 			->once()
 			->andReturn( [ 'api_key' => $api_key ] );
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -210,7 +210,7 @@ class Test_Settings extends Test_Case {
 					'warehouse_id' => $warehouse_id,
 				]
 			);
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -228,12 +228,54 @@ class Test_Settings extends Test_Case {
 			->with( Main::PLUGIN_SLUG, [] )
 			->once()
 			->andReturn( [ 'api_key' => $api_key ] );
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
 		$this->assertSame( '', $settings->warehouse_id() );
 	}
+
+	/**
+	 * Test exclude shipping cost from the total enabled.
+	 *
+	 * @throws ExpectationArgsRequired Invalid arguments.
+	 */
+	public function test_exclude_shipping_from_total_enable() {
+		$api_key = 'api-key';
+		expect( 'get_option' )
+			->with( Main::PLUGIN_SLUG, [] )
+			->once()
+			->andReturn(
+				[
+					'api_key'                     => $api_key,
+					'exclude_shipping_from_total' => 1,
+				]
+			);
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
+
+		$settings = new Settings( $notice );
+
+		$this->assertTrue( $settings->exclude_shipping_from_total() );
+	}
+
+	/**
+	 * Test exclude shipping cost from the total disabled.
+	 *
+	 * @throws ExpectationArgsRequired Invalid arguments.
+	 */
+	public function test_exclude_shipping_from_total_DISABLED() {
+		$api_key = 'api-key';
+		expect( 'get_option' )
+			->with( Main::PLUGIN_SLUG, [] )
+			->once()
+			->andReturn( [ 'api_key' => $api_key ] );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
+
+		$settings = new Settings( $notice );
+
+		$this->assertFalse( $settings->exclude_shipping_from_total() );
+	}
+
 
 	/**
 	 * Test shipping cost enable
@@ -251,7 +293,7 @@ class Test_Settings extends Test_Case {
 					'is_shipping_cost_enable' => 1,
 				]
 			);
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -269,7 +311,7 @@ class Test_Settings extends Test_Case {
 			->with( Main::PLUGIN_SLUG, [] )
 			->once()
 			->andReturn( [ 'api_key' => $api_key ] );
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -293,7 +335,7 @@ class Test_Settings extends Test_Case {
 					'default_weight_formula' => $weight_formula,
 				]
 			);
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -315,7 +357,7 @@ class Test_Settings extends Test_Case {
 					'api_key' => $api_key,
 				]
 			);
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -339,7 +381,7 @@ class Test_Settings extends Test_Case {
 					'default_width_formula' => $width_formula,
 				]
 			);
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -361,7 +403,7 @@ class Test_Settings extends Test_Case {
 					'api_key' => $api_key,
 				]
 			);
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -385,7 +427,7 @@ class Test_Settings extends Test_Case {
 					'default_height_formula' => $height_formula,
 				]
 			);
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -407,7 +449,7 @@ class Test_Settings extends Test_Case {
 					'api_key' => $api_key,
 				]
 			);
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -431,7 +473,7 @@ class Test_Settings extends Test_Case {
 					'default_length_formula' => $length_formula,
 				]
 			);
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 
@@ -453,7 +495,7 @@ class Test_Settings extends Test_Case {
 					'api_key' => $api_key,
 				]
 			);
-		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'Nova_Poshta\Admin\Notice\Notice' );
 
 		$settings = new Settings( $notice );
 

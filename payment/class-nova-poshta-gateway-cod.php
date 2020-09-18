@@ -10,8 +10,12 @@
  * @wordpress-plugin
  */
 
-use Nova_Poshta\Core\Calculator;
 use Nova_Poshta\Core\Shipping;
+use Nova_Poshta\Core\Calculator;
+
+if ( ! class_exists( 'WC_Gateway_COD' ) ) {
+	return;
+}
 
 /**
  * Class Nova_Poshta_Gateway_COD
@@ -153,6 +157,9 @@ class Nova_Poshta_Gateway_COD extends WC_Gateway_COD {
 	 */
 	private function prepare_text( string $text ): string {
 		if ( ! $this->prepayment ) {
+			return $text;
+		}
+		if ( ! WC()->cart ) {
 			return $text;
 		}
 		$quantity   = array_sum( WC()->cart->get_cart_item_quantities() );

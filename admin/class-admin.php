@@ -14,8 +14,8 @@ namespace Nova_Poshta\Admin;
 
 use Exception;
 use Nova_Poshta\Core\API;
-use Nova_Poshta\Core\Language;
 use Nova_Poshta\Core\Main;
+use Nova_Poshta\Core\Language;
 use Nova_Poshta\Core\Settings;
 
 /**
@@ -72,6 +72,10 @@ class Admin {
 	 * Enqueue styles
 	 */
 	public function enqueue_styles() {
+		if ( ! is_admin() ) {
+			return;
+		}
+		wp_enqueue_style( 'np-notice', plugin_dir_url( __FILE__ ) . '/assets/css/notice.css', [], Main::VERSION, 'all' );
 		if ( ! $this->is_plugin_page() ) {
 			return;
 		}
@@ -85,6 +89,25 @@ class Admin {
 	 * Enqueue scripts
 	 */
 	public function enqueue_scripts() {
+		if ( ! is_admin() ) {
+			return;
+		}
+		wp_enqueue_script(
+			'np-notice',
+			plugin_dir_url( __FILE__ ) . '/assets/js/notice.js',
+			[ 'jquery' ],
+			Main::VERSION,
+			true
+		);
+		wp_localize_script(
+			'np-notice',
+			'shipping_nova_poshta_for_woocommerce',
+			[
+				'url'      => admin_url( 'admin-ajax.php' ),
+				'nonce'    => wp_create_nonce( Main::PLUGIN_SLUG ),
+				'language' => $this->language->get_current_language(),
+			]
+		);
 		if ( ! $this->is_plugin_page() ) {
 			return;
 		}
@@ -96,7 +119,7 @@ class Admin {
 			true
 		);
 		wp_enqueue_script(
-			'select2-i18n-' . $this->language->get_current_language(),
+			'np-select2-i18n-' . $this->language->get_current_language(),
 			plugin_dir_url( __DIR__ ) . '/front/assets/js/i18n/' . $this->language->get_current_language() . '.js',
 			[ 'jquery', 'np-select2' ],
 			Main::VERSION,
@@ -118,15 +141,6 @@ class Admin {
 			],
 			Main::VERSION,
 			true
-		);
-		wp_localize_script(
-			Main::PLUGIN_SLUG,
-			'shipping_nova_poshta_for_woocommerce',
-			[
-				'url'      => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce( Main::PLUGIN_SLUG ),
-				'language' => $this->language->get_current_language(),
-			]
 		);
 	}
 
@@ -171,7 +185,7 @@ class Admin {
 	 * @throws Exception Invalid DateTime.
 	 */
 	public function page_options() {
-		require plugin_dir_path( __FILE__ ) . 'partials/page-options.php';
+		require plugin_dir_path( __FILE__ ) . 'partials/page-options/page-options.php';
 	}
 
 	/**

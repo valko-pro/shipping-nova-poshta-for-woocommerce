@@ -8,7 +8,7 @@
 use Nova_Poshta\Core\Main;
 
 ?>
-<h2><?php esc_attr_e( 'General', 'shipping-nova-poshta-for-woocommerce' ); ?></h2>
+<h1><?php esc_attr_e( 'General', 'shipping-nova-poshta-for-woocommerce' ); ?></h1>
 <form action="options.php" method="POST" class="shipping-nova-poshta-for-woocommerce-form">
 	<?php settings_errors( Main::PLUGIN_SLUG ); ?>
 	<?php settings_fields( Main::PLUGIN_SLUG ); ?>
@@ -109,6 +109,16 @@ use Nova_Poshta\Core\Main;
 							><?php echo esc_attr( $name ); ?></option>
 						<?php } ?>
 					</select>
+				</label>
+			</p>
+			<p>
+				<label>
+					<input
+						type="checkbox"
+						name="<?php echo esc_attr( Main::PLUGIN_SLUG ); ?>[exclude_shipping_from_total]"
+						value="1" <?php checked( $this->settings->exclude_shipping_from_total(), true ); ?>
+					/>
+					<?php esc_attr_e( 'Exclude shipping cost from the total', 'shipping-nova-poshta-for-woocommerce' ); ?>
 				</label>
 			</p>
 			<div class="cost-formula-fields">

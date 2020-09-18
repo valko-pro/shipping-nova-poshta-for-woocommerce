@@ -12,16 +12,19 @@
 
 namespace Nova_Poshta\Core;
 
-use Nova_Poshta\Admin\Admin;
-use Nova_Poshta\Admin\Notice;
-use Nova_Poshta\Admin\Product_Category_Metabox;
-use Nova_Poshta\Admin\Product_Metabox;
 use Nova_Poshta\Admin\User;
-use Nova_Poshta\Core\Cache\Cache;
-use Nova_Poshta\Core\Cache\Factory_Cache;
-use Nova_Poshta\Core\Cache\Object_Cache;
-use Nova_Poshta\Core\Cache\Transient_Cache;
+use Nova_Poshta\Admin\Admin;
 use Nova_Poshta\Front\Front;
+use Nova_Poshta\Core\Cache\Cache;
+use Nova_Poshta\Admin\Notice\Notice;
+use Nova_Poshta\Admin\Product_Metabox;
+use Nova_Poshta\Core\Cache\Object_Cache;
+use Nova_Poshta\Core\Cache\Factory_Cache;
+use Nova_Poshta\Admin\Admin_Manage_Orders;
+use Nova_Poshta\Admin\Notice\Advertisement;
+use Nova_Poshta\Core\Cache\Transient_Cache;
+use Nova_Poshta\Admin\Product_Category_Metabox;
+use Nova_Poshta\Admin\Admin_Woocommerce_Order_List;
 
 /**
  * Class Main
@@ -41,7 +44,7 @@ class Main {
 	/**
 	 * Plugin version
 	 */
-	const VERSION = '1.3.0';
+	const VERSION = '1.4.1';
 	/**
 	 * Plugin settings
 	 *
@@ -66,6 +69,12 @@ class Main {
 	 * @var Language
 	 */
 	private $language;
+	/**
+	 * Transient cache
+	 *
+	 * @var Transient_Cache
+	 */
+	private $transient_cache;
 
 	/**
 	 * Init plugin hooks
@@ -100,12 +109,12 @@ class Main {
 		$object_cache = new Object_Cache();
 		$object_cache->hooks();
 
-		$transient_cache = new Transient_Cache();
-		$transient_cache->hooks();
+		$this->transient_cache = new Transient_Cache();
+		$this->transient_cache->hooks();
 
-		$cache = new Factory_Cache( $transient_cache, $object_cache );
+		$cache = new Factory_Cache( $this->transient_cache, $object_cache );
 
-		$this->notice = new Notice( $transient_cache );
+		$this->notice = new Notice( $this->transient_cache );
 		$this->notice->hooks();
 		if ( ! $this->is_woocommerce_active() ) {
 			$this->notice->add(
@@ -145,8 +154,17 @@ class Main {
 	 * Define hooks with API key
 	 */
 	private function define_hooks_with_api_key() {
-		$calculator    = new Calculator();
-		$shipping_cost = new Shipping_Cost( $this->api, $this->settings, $calculator );
+		$admin_woocommerce_order_list = new Admin_Woocommerce_Order_List();
+		$admin_woocommerce_order_list->hooks();
+		$cart = new Cart( $this->settings );
+		$cart->hooks();
+		$calculator        = new Calculator();
+		$shipping_cost     = new Shipping_Cost( $this->api, $this->settings, $calculator );
+		$internet_document = new Internet_Document( $this->api, $shipping_cost, $this->notice );
+		$admin             = new Admin_Manage_Orders( $internet_document );
+		$admin->hooks();
+		$advertisement = new Advertisement( $this->transient_cache );
+		$advertisement->hooks();
 
 		$ajax = new AJAX( $this->api, $shipping_cost );
 		$ajax->hooks();
@@ -157,7 +175,7 @@ class Main {
 		$front = new Front( $this->language );
 		$front->hooks();
 
-		$order = new Order( $this->api, $shipping_cost, $this->notice );
+		$order = new Order( $this->api, $shipping_cost, $internet_document );
 		$order->hooks();
 
 		$thank_you = new Thank_You( $this->api );

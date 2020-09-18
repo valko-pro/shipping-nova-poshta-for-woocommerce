@@ -10,27 +10,21 @@
  * @wordpress-plugin
  */
 
-namespace Nova_Poshta\Admin;
+namespace Nova_Poshta\Admin\Notice;
 
 use Nova_Poshta\Core\Cache\Transient_Cache;
 
 /**
- * Class Admin
+ * Class Notice
  *
- * @package Nova_Poshta\Admin
+ * @package Nova_Poshta\Admin\Notice
  */
-class Notice {
+class Notice extends Abstract_Notice {
 
 	/**
 	 * Cache key
 	 */
 	const NOTICES_KEY = 'np-notices';
-	/**
-	 * List of notices
-	 *
-	 * @var array
-	 */
-	private $notices = [];
 	/**
 	 * Transient cache
 	 *
@@ -53,19 +47,6 @@ class Notice {
 	}
 
 	/**
-	 * Register plugin notice
-	 *
-	 * @param string $type    Type of notice.
-	 * @param string $message Message of notice.
-	 */
-	public function add( string $type, string $message ) {
-		$this->notices[] = [
-			'type'    => $type,
-			'message' => $message,
-		];
-	}
-
-	/**
 	 * Add hooks
 	 */
 	public function hooks() {
@@ -81,19 +62,9 @@ class Notice {
 			return;
 		}
 		foreach ( $this->notices as $notice ) {
-			$this->show( $notice['type'], $notice['message'] );
+			$this->show( $notice['type'], $notice['message'], $notice['btn_label'], $notice['btn_url'] );
 		}
 		$this->notices = [];
-	}
-
-	/**
-	 * Show notice
-	 *
-	 * @param string $type    Type of notice.
-	 * @param string $message Message of notice.
-	 */
-	private function show( string $type, string $message ) {
-		require plugin_dir_path( __FILE__ ) . 'partials/notice.php';
 	}
 
 	/**

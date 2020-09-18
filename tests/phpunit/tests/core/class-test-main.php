@@ -7,11 +7,12 @@
 
 namespace Nova_Poshta\Core;
 
-use Brain\Monkey\Expectation\Exception\ExpectationArgsRequired;
 use Mockery;
 use Nova_Poshta\Tests\Test_Case;
-use function Brain\Monkey\Functions\expect;
+use Brain\Monkey\Expectation\Exception\ExpectationArgsRequired;
+
 use function Brain\Monkey\Functions\when;
+use function Brain\Monkey\Functions\expect;
 
 /**
  * Class Test_Main
@@ -33,7 +34,7 @@ class Test_Main extends Test_Case {
 			->once()
 			->andReturn( false );
 		when( '__' )->returnArg();
-		$notice = Mockery::mock( 'overload:Nova_Poshta\Admin\Notice' );
+		$notice = Mockery::mock( 'overload:Nova_Poshta\Admin\Notice\Notice' );
 		$notice
 			->shouldReceive( 'add' )
 			->with( 'error', '<strong>' . Main::PLUGIN_NAME . '</strong> extends WooCommerce functionality and does not work without it.' )
@@ -83,8 +84,26 @@ class Test_Main extends Test_Case {
 		$admin
 			->shouldReceive( 'hooks' )
 			->once();
+
+		$admin_woocommerce_order_list = Mockery::mock( 'overload:Nova_Poshta\Admin\Admin_Woocommerce_Order_List' );
+		$admin_woocommerce_order_list
+			->shouldReceive( 'hooks' )
+			->once();
+		$cart = Mockery::mock( 'overload:Nova_Poshta\Core\Cart' );
+		$cart
+			->shouldReceive( 'hooks' )
+			->once();
 		Mockery::mock( 'overload:Nova_Poshta\Core\Calculator' );
 		Mockery::mock( 'overload:Nova_Poshta\Core\Shipping_Cost' );
+		Mockery::mock( 'overload:Nova_Poshta\Core\Internet_Document' );
+		$admin_manage_orders = Mockery::mock( 'overload:Nova_Poshta\Admin\Admin_Manage_Orders' );
+		$admin_manage_orders
+			->shouldReceive( 'hooks' )
+			->once();
+		$advertisement = Mockery::mock( 'overload:Nova_Poshta\Admin\Notice\Advertisement' );
+		$advertisement
+			->shouldReceive( 'hooks' )
+			->once();
 		$ajax = Mockery::mock( 'overload:Nova_Poshta\Core\AJAX' );
 		$ajax
 			->shouldReceive( 'hooks' )
