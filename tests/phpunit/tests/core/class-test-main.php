@@ -84,12 +84,12 @@ class Test_Main extends Test_Case {
 		$admin
 			->shouldReceive( 'hooks' )
 			->once();
-    
+
 		$admin_woocommerce_order_list = Mockery::mock( 'overload:Nova_Poshta\Admin\Admin_Woocommerce_Order_List' );
 		$admin_woocommerce_order_list
-      ->shouldReceive( 'hooks' )
+			->shouldReceive( 'hooks' )
 			->once();
-    $cart = Mockery::mock( 'overload:Nova_Poshta\Core\Cart' );
+		$cart = Mockery::mock( 'overload:Nova_Poshta\Core\Cart' );
 		$cart
 			->shouldReceive( 'hooks' )
 			->once();
