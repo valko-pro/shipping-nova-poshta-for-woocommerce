@@ -1,6 +1,6 @@
 ( function( $ ) {
 	function init() {
-		$( '#shipping_nova_poshta_for_woocommerce_city:not(.select2-hidden-accessible)' ).np_select2( {
+		$( '#shipping_nova_poshta_for_woocommerce_city:not(.select2-hidden-accessible), #shipping_nova_poshta_сourier_for_woocommerce_city:not(.select2-hidden-accessible)' ).np_select2( {
 			language: shipping_nova_poshta_for_woocommerce.language,
 			minimumInputLength: 1,
 			ajax: {
@@ -26,7 +26,7 @@
 				data: {
 					'nonce': shipping_nova_poshta_for_woocommerce.nonce,
 					'action': 'shipping_nova_poshta_for_woocommerce_warehouse',
-					'city': $( '#shipping_nova_poshta_for_woocommerce_city' ).val(),
+					'city': $( '#shipping_nova_poshta_for_woocommerce_city, #shipping_nova_poshta_сourier_for_woocommerce_city' ).val(),
 				},
 				beforeSend: function() {
 					$( '#shipping_nova_poshta_for_woocommerce_warehouse' ).addClass( 'inactive' );
@@ -49,7 +49,7 @@
 				data: {
 					'nonce': shipping_nova_poshta_for_woocommerce.nonce,
 					'action': 'shipping_nova_poshta_for_woocommerce_shipping_cost',
-					'city': $( '#shipping_nova_poshta_for_woocommerce_city' ).val(),
+					'city': $( '#shipping_nova_poshta_for_woocommerce_city, #shipping_nova_poshta_сourier_for_woocommerce_city' ).val(),
 				},
 				success: function( data ) {
 					var price = $( 'input[value=shipping_nova_poshta_for_woocommerce]' ).parent().find( '.woocommerce-Price-amount' );
@@ -57,13 +57,23 @@
 				},
 			} )
 		} );
-		$( '#shipping_nova_poshta_for_woocommerce_warehouse:not(.select2-hidden-accessible)' ).np_select2( {
+		$( '#shipping_nova_poshta_for_woocommerce_warehouse:not(.select2-hidden-accessible), #shipping_nova_poshta_courier_for_woocommerce_warehouse:not(.select2-hidden-accessible)'  ).np_select2( {
 			language: shipping_nova_poshta_for_woocommerce.language,
 		} );
+
+		$("#billing_address_1").on( "keyup", function(e){
+			$('#shipping_nova_poshta_сourier_for_woocommerce_street_and_house').val($(this).val());
+		})
+		$("#billing_address_2").on( "keyup", function(e){
+			$('#shipping_nova_poshta_сourier_for_woocommerce_appartment').val($(this).val());
+		})
+
+		$('#shipping_nova_poshta_сourier_for_woocommerce_street_and_house').val($('#billing_address_1').val());
+		$('#shipping_nova_poshta_сourier_for_woocommerce_appartment').val($('#billing_address_2').val());
 	}
 
 	$( function() {
-		if ( $( '#shipping_nova_poshta_for_woocommerce_city, #shipping_nova_poshta_for_woocommerce_warehouse' ).length ) {
+		if ( $( '#shipping_nova_poshta_for_woocommerce_city, #shipping_nova_poshta_courier_for_woocommerce_city, #shipping_nova_poshta_for_woocommerce_warehouse' ).length ) {
 			init();
 		}
 	} );

@@ -39,10 +39,13 @@ class Checkout {
 		if ( ! is_checkout() ) {
 			return;
 		}
+
 		$shipping_method = filter_input( INPUT_POST, 'shipping_method', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 		$shipping_method = isset( $shipping_method[0] ) ? preg_replace( '/:[0-9]{1,10}$/', '', $shipping_method[0] ) : [];
 		if ( 'shipping_nova_poshta_for_woocommerce' === $shipping_method && 'shipping_nova_poshta_for_woocommerce' === $shipping_rate->get_method_id() ) {
 			do_action( 'shipping_nova_poshta_for_woocommerce_user_fields' );
+		} elseif ( 'shipping_nova_poshta_courier_for_woocommerce' === $shipping_method && 'shipping_nova_poshta_courier_for_woocommerce' === $shipping_rate->get_method_id() ) {
+			do_action( 'shipping_nova_poshta_courier_for_woocommerce_user_fields' );
 		}
 	}
 
@@ -59,6 +62,17 @@ class Checkout {
 		}
 		if ( isset( $_POST['shipping_nova_poshta_for_woocommerce_warehouse'] ) && empty( $_POST['shipping_nova_poshta_for_woocommerce_warehouse'] ) ) {
 			wc_add_notice( __( 'Choose branch', 'shipping-nova-poshta-for-woocommerce' ), 'error' );
+		}
+
+		// Courier fields
+		if ( isset( $_POST['shipping_nova_poshta_сourier_for_woocommerce_city'] ) && empty( $_POST['shipping_nova_poshta_сourier_for_woocommerce_city'] ) ) {
+			wc_add_notice( __( 'Select delivery city', 'shipping-nova-poshta-for-woocommerce' ), 'error' );
+		}
+		if ( isset( $_POST['shipping_nova_poshta_сourier_for_woocommerce_street_and_house'] ) && empty( $_POST['shipping_nova_poshta_сourier_for_woocommerce_street_and_house'] ) ) {
+			wc_add_notice( __( 'Please fill your street name and house number', 'shipping-nova-poshta-for-woocommerce' ), 'error' );
+		}
+		if ( isset( $_POST['shipping_nova_poshta_сourier_for_woocommerce_appartment'] ) && empty( $_POST['shipping_nova_poshta_сourier_for_woocommerce_appartment'] ) ) {
+			wc_add_notice( __( 'Please fill your apartment number', 'shipping-nova-poshta-for-woocommerce' ), 'error' );
 		}
 	}
 

@@ -58,7 +58,7 @@ class Nova_Poshta_Gateway_COD extends WC_Gateway_COD {
 		parent::__construct();
 		$this->calculator         = new Calculator();
 		$this->prepayment         = $this->settings['prepayment'] ?? '';
-		$this->enable_for_methods = [ Shipping::METHOD_NAME ];
+		$this->enable_for_methods = [ Shipping::METHOD_DEPARTAMENT_DELIVERY, Shipping::METHOD_COURIER_DELIVERY ];
 	}
 
 	/**

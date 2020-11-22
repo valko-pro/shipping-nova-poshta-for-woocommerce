@@ -27,7 +27,8 @@ class Shipping {
 	 *
 	 * @var string
 	 */
-	const METHOD_NAME = 'shipping_nova_poshta_for_woocommerce';
+	const METHOD_DEPARTAMENT_DELIVERY = 'shipping_nova_poshta_for_woocommerce';
+	const METHOD_COURIER_DELIVERY = 'shipping_nova_poshta_courier_for_woocommerce';
 	/**
 	 * Plugin notices
 	 *
@@ -79,6 +80,7 @@ class Shipping {
 	 */
 	public function require_methods() {
 		require_once plugin_dir_path( __DIR__ ) . 'shipping/class-nova-poshta-shipping-method.php';
+		require_once plugin_dir_path( __DIR__ ) . 'shipping/class-nova-poshta-courier-shipping-method.php';
 	}
 
 	/**
@@ -98,7 +100,8 @@ class Shipping {
 	 * @return array
 	 */
 	public function register_methods( array $methods ): array {
-		$methods[ self::METHOD_NAME ] = 'Nova_Poshta_Shipping_Method';
+		$methods[ self::METHOD_DEPARTAMENT_DELIVERY ] = 'Nova_Poshta_Shipping_Method';
+		$methods[ self::METHOD_COURIER_DELIVERY ] = 'Nova_Poshta_Сourier_Shipping_Method';
 
 		return $methods;
 	}
@@ -112,17 +115,18 @@ class Shipping {
 		global $wpdb;
 		$cache = $this->factory_cache->object();
 		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
-		$is_active = $cache->get( self::METHOD_NAME . '_active' );
+		$is_active = $cache->get( 'nova_poshta_has_active_shipping_method' );
 		if ( ! $is_active ) {
 			//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$is_active = (bool) $wpdb->get_var(
 				$wpdb->prepare(
 					'SELECT `instance_id` FROM ' . $wpdb->prefix . 'woocommerce_shipping_zone_methods
-			WHERE `method_id` = %s AND `is_enabled` = 1 LIMIT 1',
-					self::METHOD_NAME
+						WHERE `method_id` IN ( %s, %s ) AND `is_enabled` = 1 LIMIT 1',
+					self::METHOD_DEPARTAMENT_DELIVERY,
+					self::METHOD_COURIER_DELIVERY
 				)
 			);
-			$cache->set( self::METHOD_NAME . '_active', $is_active, constant( 'DAY_IN_SECONDS' ) );
+			$cache->set( 'nova_poshta_has_active_shipping_method', $is_active, constant( 'DAY_IN_SECONDS' ) );
 		}
 
 		//phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching
