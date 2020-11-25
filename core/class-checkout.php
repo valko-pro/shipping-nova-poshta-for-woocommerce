@@ -64,7 +64,9 @@ class Checkout {
 			wc_add_notice( __( 'Choose branch', 'shipping-nova-poshta-for-woocommerce' ), 'error' );
 		}
 
-		// Courier fields
+		/**
+		 * Courier fields
+		 */
 		if ( isset( $_POST['shipping_nova_poshta_сourier_for_woocommerce_city'] ) && empty( $_POST['shipping_nova_poshta_сourier_for_woocommerce_city'] ) ) {
 			wc_add_notice( __( 'Select delivery city', 'shipping-nova-poshta-for-woocommerce' ), 'error' );
 		}

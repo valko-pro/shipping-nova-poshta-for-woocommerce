@@ -128,11 +128,11 @@ if ( ! class_exists( 'Nova_Poshta_Сourier_Shipping_Method' ) ) {
 			$settings        = new Settings( $notice );
 			$api             = new API( $db, $factory_cache, $settings );
 			$user_id         = get_current_user_id();
-			$city_id         = apply_filters( 'shipping_nova_poshta_сourier_for_woocommerce_default_city_id', '', $user_id );
+			$city_id         = apply_filters( 'shipping_nova_poshta_courier_for_woocommerce_default_city_id', '', $user_id );
 			if ( ! $city_id ) {
 				$city    = $api->cities(
 					apply_filters(
-						'shipping_nova_poshta_сourier_for_woocommerce_default_city',
+						'shipping_nova_poshta_courier_for_woocommerce_default_city',
 						'',
 						$user_id,
 						$language->get_current_language()

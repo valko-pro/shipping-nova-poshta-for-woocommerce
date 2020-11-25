@@ -28,7 +28,7 @@ class Shipping {
 	 * @var string
 	 */
 	const METHOD_DEPARTAMENT_DELIVERY = 'shipping_nova_poshta_for_woocommerce';
-	const METHOD_COURIER_DELIVERY = 'shipping_nova_poshta_courier_for_woocommerce';
+	const METHOD_COURIER_DELIVERY     = 'shipping_nova_poshta_courier_for_woocommerce';
 	/**
 	 * Plugin notices
 	 *
@@ -101,7 +101,7 @@ class Shipping {
 	 */
 	public function register_methods( array $methods ): array {
 		$methods[ self::METHOD_DEPARTAMENT_DELIVERY ] = 'Nova_Poshta_Shipping_Method';
-		$methods[ self::METHOD_COURIER_DELIVERY ] = 'Nova_Poshta_Сourier_Shipping_Method';
+		$methods[ self::METHOD_COURIER_DELIVERY ]     = 'Nova_Poshta_Сourier_Shipping_Method';
 
 		return $methods;
 	}

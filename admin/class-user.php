@@ -52,7 +52,7 @@ class User {
 	 */
 	public function hooks() {
 		add_action( 'shipping_nova_poshta_for_woocommerce_user_fields', [ $this, 'fields' ] );
-		add_action( 'shipping_nova_poshta_courier_for_woocommerce_user_fields', [ $this, 'courier_fields' ]);
+		add_action( 'shipping_nova_poshta_courier_for_woocommerce_user_fields', [ $this, 'courier_fields' ] );
 		add_action( 'woocommerce_checkout_create_order_shipping_item', [ $this, 'checkout' ], 10, 4 );
 
 		add_filter( 'shipping_nova_poshta_for_woocommerce_default_city_id', [ $this, 'city' ] );
@@ -123,21 +123,21 @@ class User {
 	}
 
 	public function courier_fields() {
-		$user_id      = get_current_user_id();
-		$user_billing_address_1 = get_user_meta( $user_id, 'billing_address_1', true);
-		$user_billing_address_2 = get_user_meta( $user_id, 'billing_address_2', true);
+		$user_id                = get_current_user_id();
+		$user_billing_address_1 = get_user_meta( $user_id, 'billing_address_1', true );
+		$user_billing_address_2 = get_user_meta( $user_id, 'billing_address_2', true );
 
-		$city_id      = filter_input( INPUT_POST, 'shipping_nova_poshta_сourier_for_woocommerce_city', FILTER_SANITIZE_STRING );
+		$city_id = filter_input( INPUT_POST, 'shipping_nova_poshta_сourier_for_woocommerce_city', FILTER_SANITIZE_STRING );
 
 		if ( empty( $city_id ) ) {
-			$city_id = apply_filters( 'shipping_nova_poshta_сourier_for_woocommerce_default_city_id', '', $user_id );
+			$city_id = apply_filters( 'shipping_nova_poshta_courier_for_woocommerce_default_city_id', '', $user_id );
 		}
 		if ( $city_id ) {
 			$city = $this->api->city( $city_id );
 		} else {
 			$city    = $this->api->cities(
 				apply_filters(
-					'shipping_nova_poshta_сourier_for_woocommerce_default_city',
+					'shipping_nova_poshta_courier_for_woocommerce_default_city',
 					'',
 					$user_id,
 					$this->language->get_current_language()
@@ -176,9 +176,9 @@ class User {
 		];
 		wp_nonce_field( Main::PLUGIN_SLUG . '-shipping', 'shipping_nova_poshta_for_woocommerce_nonce', false );
 		foreach ( $fields as $key => $field ) {
-			do_action( 'before_shipping_nova_poshta_сourier_for_woocommerce_field', $key, $field );
+			do_action( 'before_shipping_nova_poshta_courier_for_woocommerce_field', $key, $field );
 			woocommerce_form_field( $key, $field );
-			do_action( 'after_shipping_nova_poshta_сourier_for_woocommerce_field', $key, $field );
+			do_action( 'after_shipping_nova_poshta_courier_for_woocommerce_field', $key, $field );
 		}
 	}
 
@@ -227,9 +227,9 @@ class User {
 			return;
 		}
 
-		$city_id      = filter_input( INPUT_POST, 'shipping_nova_poshta_for_woocommerce_city', FILTER_SANITIZE_STRING );
+		$city_id = filter_input( INPUT_POST, 'shipping_nova_poshta_for_woocommerce_city', FILTER_SANITIZE_STRING );
 		if ( ! $city_id ) {
-			$city_id      = filter_input( INPUT_POST, 'shipping_nova_poshta_сourier_for_woocommerce_city', FILTER_SANITIZE_STRING );
+			$city_id = filter_input( INPUT_POST, 'shipping_nova_poshta_сourier_for_woocommerce_city', FILTER_SANITIZE_STRING );
 		}
 
 		if ( $city_id ) {
@@ -241,12 +241,12 @@ class User {
 			update_user_meta( $user_id, 'shipping_nova_poshta_for_woocommerce_warehouse', $warehouse_id );
 		}
 
-		$street_house      = filter_input( INPUT_POST, 'shipping_nova_poshta_сourier_for_woocommerce_street_and_house', FILTER_SANITIZE_STRING );
+		$street_house = filter_input( INPUT_POST, 'shipping_nova_poshta_сourier_for_woocommerce_street_and_house', FILTER_SANITIZE_STRING );
 		if ( $street_house ) {
 			update_user_meta( $user_id, 'shipping_nova_poshta_сourier_for_woocommerce_street_and_house', $street_house );
 		}
 
-		$appartment      = filter_input( INPUT_POST, 'shipping_nova_poshta_сourier_for_woocommerce_appartment', FILTER_SANITIZE_STRING );
+		$appartment = filter_input( INPUT_POST, 'shipping_nova_poshta_сourier_for_woocommerce_appartment', FILTER_SANITIZE_STRING );
 		if ( $appartment ) {
 			update_user_meta( $user_id, 'shipping_nova_poshta_сourier_for_woocommerce_appartment', $appartment );
 		}
