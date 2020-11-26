@@ -122,6 +122,9 @@ class User {
 		}
 	}
 
+	/**
+	 * Fields for courier delivery method
+	 */
 	public function courier_fields() {
 		$user_id                = get_current_user_id();
 		$user_billing_address_1 = get_user_meta( $user_id, 'billing_address_1', true );
