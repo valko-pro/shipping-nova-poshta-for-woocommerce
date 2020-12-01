@@ -71,19 +71,7 @@ class User {
 		}
 		if ( $city_id ) {
 			$city = $this->api->city( $city_id );
-		} /*else {
-			$city    = $this->api->cities(
-				apply_filters(
-					'shipping_nova_poshta_for_woocommerce_default_city',
-					'',
-					$user_id,
-					$this->language->get_current_language()
-				),
-				1
-			);
-			$city_id = array_keys( $city )[0];
-			$city    = array_pop( $city );
-		}*/
+		}
 
 		$warehouses   = $this->api->warehouses( $city_id );
 		$warehouse_id = array_keys( $warehouses )[0] ?? '';
