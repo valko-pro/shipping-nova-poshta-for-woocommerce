@@ -109,8 +109,8 @@ class User {
 				'type'     => 'select',
 				'label'    => __( 'Choose branch', 'shipping-nova-poshta-for-woocommerce' ),
 				'required' => true,
-				'options'  => $warehouses,
-				'default'  => $warehouse_id,
+				'options'  => [ '' => '' ],
+				'default'  => '',
 				'priority' => 20,
 			],
 		];

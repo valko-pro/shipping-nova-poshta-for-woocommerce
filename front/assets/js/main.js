@@ -20,6 +20,7 @@
 				},
 			},
 		} ).on( 'select2:select', function() {
+			let warehouse_wrapper = $( '#shipping_nova_poshta_for_woocommerce_warehouse_field' );
 			$.ajax( {
 				url: shipping_nova_poshta_for_woocommerce.url,
 				type: 'POST',
@@ -32,6 +33,7 @@
 					$( '#shipping_nova_poshta_for_woocommerce_warehouse' ).addClass( 'inactive' );
 				},
 				success: function( data ) {
+					warehouse_wrapper.show();
 					let select = $( '#shipping_nova_poshta_for_woocommerce_warehouse' );
 					select.find( 'option' ).remove();
 					data.forEach( function( element ) {
