@@ -71,7 +71,7 @@ class User {
 		}
 		if ( $city_id ) {
 			$city = $this->api->city( $city_id );
-		} else {
+		} /*else {
 			$city    = $this->api->cities(
 				apply_filters(
 					'shipping_nova_poshta_for_woocommerce_default_city',
@@ -83,7 +83,7 @@ class User {
 			);
 			$city_id = array_keys( $city )[0];
 			$city    = array_pop( $city );
-		}
+		}*/
 
 		$warehouses   = $this->api->warehouses( $city_id );
 		$warehouse_id = array_keys( $warehouses )[0] ?? '';
@@ -96,12 +96,13 @@ class User {
 
 		$fields = [
 			'shipping_nova_poshta_for_woocommerce_city' => [
-				'type'     => 'select',
-				'label'    => __( 'Select delivery city', 'shipping-nova-poshta-for-woocommerce' ),
-				'required' => true,
-				'options'  => [ $city_id => $city ],
-				'default'  => $city_id,
-				'priority' => 10,
+				'type'        => 'select',
+				'label'       => __( 'Select delivery city', 'shipping-nova-poshta-for-woocommerce' ),
+				'required'    => true,
+				'options'     => [ $city_id => $city ],
+				'default'     => $city_id,
+				'priority'    => 10,
+				'placeholder' => __( 'Choose city', 'shipping-nova-poshta-for-woocommerce' ),
 			],
 
 			'shipping_nova_poshta_for_woocommerce_warehouse' => [
