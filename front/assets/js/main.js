@@ -33,13 +33,13 @@
 					$( '#shipping_nova_poshta_for_woocommerce_warehouse' ).addClass( 'inactive' );
 				},
 				success: function( data ) {
-					warehouse_wrapper.show();
 					let select = $( '#shipping_nova_poshta_for_woocommerce_warehouse' );
 					select.find( 'option' ).remove();
 					data.forEach( function( element ) {
 						select.append( new Option( element.text, element.id, false, false ) );
 					} );
 					select.trigger( 'change' );
+					warehouse_wrapper.show();
 				},
 				complete: function() {
 					$( '#shipping_nova_poshta_for_woocommerce_warehouse' ).removeClass( 'inactive' );

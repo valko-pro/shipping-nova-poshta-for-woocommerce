@@ -18,12 +18,13 @@
     display: none;
 }
 
-#shipping_nova_poshta_for_woocommerce_warehouse_field span.select2 {
-    width: 100%!important;
-    max-width: 300px;
+#shipping_nova_poshta_for_woocommerce_warehouse_field.has-meta {
+    display: block;
 }
 
-#shipping_nova_poshta_for_woocommerce_city_field span.select2 {
+#shipping_nova_poshta_for_woocommerce_city_field .select2-container,
+#shipping_nova_poshta_for_woocommerce_warehouse_field .select2-container {
+    display: block;
     width: 100%!important;
     max-width: 300px;
 }

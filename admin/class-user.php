@@ -63,24 +63,27 @@ class User {
 	 * TODO: Move to other place.
 	 */
 	public function fields() {
-		$user_id      = get_current_user_id();
+		$user_id      = is_user_logged_in() ? get_current_user_id() : '';
 		$city_id      = filter_input( INPUT_POST, 'shipping_nova_poshta_for_woocommerce_city', FILTER_SANITIZE_STRING );
 		$warehouse_id = filter_input( INPUT_POST, 'shipping_nova_poshta_for_woocommerce_warehouse', FILTER_SANITIZE_STRING );
 		if ( empty( $city_id || $warehouse_id ) ) {
 			$city_id = apply_filters( 'shipping_nova_poshta_for_woocommerce_default_city_id', '', $user_id );
 		}
 		if ( $city_id ) {
-			$city = $this->api->city( $city_id );
+			$city              = $this->api->city( $city_id );
+			$warehouses        = $this->api->warehouses( $city_id );
+			$warehouse_id      = array_keys( $warehouses )[0] ?? '';
+			$warehouse_id      = apply_filters(
+				'shipping_nova_poshta_for_woocommerce_default_warehouse_id',
+				$warehouse_id,
+				$user_id,
+				$city_id
+			);
+			$warehouse_classes = 'has-meta';
+		} else {
+			$warehouses   = [ '' => '' ];
+			$warehouse_id = '';
 		}
-
-		$warehouses   = $this->api->warehouses( $city_id );
-		$warehouse_id = array_keys( $warehouses )[0] ?? '';
-		$warehouse_id = apply_filters(
-			'shipping_nova_poshta_for_woocommerce_default_warehouse_id',
-			$warehouse_id,
-			$user_id,
-			$city_id
-		);
 
 		$fields = [
 			'shipping_nova_poshta_for_woocommerce_city' => [
@@ -97,9 +100,10 @@ class User {
 				'type'     => 'select',
 				'label'    => __( 'Choose branch', 'shipping-nova-poshta-for-woocommerce' ),
 				'required' => true,
-				'options'  => [ '' => '' ],
-				'default'  => '',
+				'options'  => $warehouses,
+				'default'  => $warehouse_id,
 				'priority' => 20,
+				'class'    => [ $warehouse_classes ],
 			],
 		];
 		wp_nonce_field( Main::PLUGIN_SLUG . '-shipping', 'shipping_nova_poshta_for_woocommerce_nonce', false );
